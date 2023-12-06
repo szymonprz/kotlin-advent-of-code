@@ -7,8 +7,7 @@ fun main() {
         input.first().substringAfter(":").split(" ").filter { it.isNotEmpty() }.map { it.toInt() }
     val distances =
         input.last().substringAfter(":").split(" ").filter { it.isNotEmpty() }.map { it.toInt() }
-    times.println()
-    distances.println()
+
     val result =
         times
             .zip(distances)
@@ -22,7 +21,7 @@ fun main() {
     return result
   }
 
-  fun part2(input: List<String>): Int {
+  fun part2(input: List<String>): Long {
     val time =
         input
             .first()
@@ -39,15 +38,16 @@ fun main() {
             .filter { it.isNotEmpty() }
             .joinToString("")
             .toLong()
-time.println()
-    distance.println()
+
     val count =
         (0..time)
+            .asSequence()
             .map { holdTime -> holdTime.times(time - holdTime) }
-            .filter { it > distance }
+            .takeWhile { it <= distance }
             .count()
 
-    return count
+    val fasterResult = time - (count * 2) + 1
+    return fasterResult
   }
 
   // test if implementation meets criteria from the description, like:
@@ -62,7 +62,7 @@ time.println()
   val test2Input = readInput("Day06_test")
   val part2Test = part2(test2Input)
   part2Test.println()
-  check(part2Test == 71503)
+  check(part2Test == 71503L)
   val time = measureTime { part2(input).println() }
 
   println("Measured time: " + time.inWholeSeconds)
